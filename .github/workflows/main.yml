@@ -1,0 +1,25 @@
+name: Save Data to GitHub
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  save-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Save data to GitHub
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} # Usa el secreto llamado 'TOKEN'
+        run: |
+          echo "Token disponible: $GITHUB_TOKEN"

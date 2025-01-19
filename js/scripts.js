@@ -7,6 +7,9 @@ const checklist = document.getElementById('checklist');
 const completedTasks = document.getElementById('completedTasks');
 const moduleInput = document.getElementById('moduleInput');
 
+// Variable para almacenar el token desde el entorno
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
 window.onload = async () => {
     const savedData = await loadDataFromGitHub();
     if (savedData) {
@@ -96,7 +99,7 @@ async function saveDataToGitHub(data) {
     let sha = null;
     try {
         const response = await fetch(url, {
-            headers: { Authorization: `token ${GITHUB_TOKEN}` } // Token cargado desde config.js
+            headers: { Authorization: `token ${GITHUB_TOKEN}` } // Usa el token del secreto
         });
         if (response.ok) {
             const fileData = await response.json();
@@ -110,7 +113,7 @@ async function saveDataToGitHub(data) {
     const response = await fetch(url, {
         method: "PUT",
         headers: {
-            Authorization: `token ${GITHUB_TOKEN}`, // Token cargado desde config.js
+            Authorization: `token ${GITHUB_TOKEN}`, // Usa el token del secreto
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
@@ -129,7 +132,7 @@ async function loadDataFromGitHub() {
     const url = `${GITHUB_API_URL}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
     try {
         const response = await fetch(url, {
-            headers: { Authorization: `token ${GITHUB_TOKEN}` } // Token cargado desde config.js
+            headers: { Authorization: `token ${GITHUB_TOKEN}` } // Usa el token del secreto
         });
         if (response.ok) {
             const fileData = await response.json();
